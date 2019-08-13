@@ -20,7 +20,7 @@ class Ui_MianWIndow(object):
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1009, 709))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.pushButton_clear = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_clear.setGeometry(QtCore.QRect(80, 350, 60, 24))
+        self.pushButton_clear.setGeometry(QtCore.QRect(260, 350, 60, 24))
         self.pushButton_clear.setObjectName("pushButton_clear")
         self.widget_param = QtWidgets.QWidget(self.scrollAreaWidgetContents)
         self.widget_param.setGeometry(QtCore.QRect(10, 130, 991, 201))

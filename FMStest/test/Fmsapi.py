@@ -20,9 +20,11 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.pushButton_in.clicked.connect(self.ImportExcel)
         self.comboBox_way.activated.connect(self.ChoicePath)
         self.pushButton_request.clicked.connect(self.Request)
+        self.pushButton_clear.clicked.connect(self.Clear)
         self.checkBox_body.stateChanged.connect(self.Body)
         self.checkBox_query.stateChanged.connect(self.Query)
         self.checkBox_header.stateChanged.connect(self.Header)
+
 
 
     def ImportExcel(self):
@@ -78,7 +80,7 @@ class Show(QMainWindow,Ui_MianWIndow):
             print(response.content)
             # self.Result('{}:\t{}'.format(self.name,response.status_code))
             self.Result(response.text)
-            self.Result(response.status_code)
+            # self.Result(str(response.status_code))
 
 
     def Body(self):
@@ -111,6 +113,9 @@ class Show(QMainWindow,Ui_MianWIndow):
     def Result(self,list):
         self.textBrowser_result.append(list)
         # self.textBrowser_result.setText(list)
+
+    def Clear(self):
+        self.textBrowser_result.setText("")
 
 
 def main():
