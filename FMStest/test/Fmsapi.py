@@ -40,15 +40,18 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.path = self.list[self.comboBox_way.currentIndex()][2]
         self.method = self.list[self.comboBox_way.currentIndex()][1]
         self.label_method.setText(self.method)
+        self.lineEdit_path.setText(self.path)
         print(self.method,self.path)
+
 
     def Request(self):
         print('in')
         self.request_body = ''
         self.request_header = ''
         self.request_query = ''
+        # self.truepath = self.lineEdit_path.text()
         Mark = True
-        self.url = 'http://192.168.83.200:8088{}'.format(self.path)
+        self.url = 'http://192.168.83.200:8088{}'.format(self.lineEdit_path.text())
         if self.checkBox_body.isChecked() and len(self.body_edit.toPlainText()) != 0:
             try:
                 self.request_body = json.loads(self.body_edit.toPlainText())
@@ -75,6 +78,7 @@ class Show(QMainWindow,Ui_MianWIndow):
             print(response.content)
             # self.Result('{}:\t{}'.format(self.name,response.status_code))
             self.Result(response.text)
+            self.Result(response.status_code)
 
 
     def Body(self):
