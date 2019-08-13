@@ -5,21 +5,31 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets,QtCore,QtGui
 import pandas as pd
 
+host = 'http://192.168.83.200:8088'
+headers = '{"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="}'
 class Show(QMainWindow,Ui_MianWIndow):
     def __init__(self):
         super(Show, self).__init__()
         self.setWindowIcon(QtGui.QIcon('./fms.png'))
-        self.body_edit = QtWidgets.QTextEdit()
+        # self.body_edit = QtWidgets.QTextEdit()
+        # self.body_edit.setPlaceholderText('输入Body')
+        # self.query_edit = QtWidgets.QTextEdit()
+        # self.query_edit.setPlaceholderText('输入Query')
+        # self.header_edit = QtWidgets.QTextEdit()
+        # self.header_edit.setPlaceholderText('输入Header')
+        self.body_edit = QtWidgets.QPlainTextEdit()
         self.body_edit.setPlaceholderText('输入Body')
-        self.query_edit = QtWidgets.QTextEdit()
+        self.query_edit = QtWidgets.QPlainTextEdit()
         self.query_edit.setPlaceholderText('输入Query')
-        self.header_edit = QtWidgets.QTextEdit()
+        self.header_edit = QtWidgets.QPlainTextEdit()
         self.header_edit.setPlaceholderText('输入Header')
+
         self.setupUi(self)
         self.setWindowTitle('FMS apitest')
         self.pushButton_in.clicked.connect(self.ImportExcel)
         self.comboBox_way.activated.connect(self.ChoicePath)
         self.pushButton_request.clicked.connect(self.Request)
+        self.pushButton_requestall.clicked.connect(self.RequestAll)
         self.pushButton_clear.clicked.connect(self.Clear)
         self.checkBox_body.stateChanged.connect(self.Body)
         self.checkBox_query.stateChanged.connect(self.Query)
@@ -31,9 +41,12 @@ class Show(QMainWindow,Ui_MianWIndow):
 
         self.filename,self.filetype = QFileDialog.getOpenFileName(self,"选择文件","./","所有文件 (*);;Excel (.xlsx)")
         try:
+            self.comboBox_way.clear()
             self.list = pd.read_excel(self.filename).values
             for i in self.list:
                 self.comboBox_way.addItem(i[0])
+            self.label_method.setText(self.list[self.comboBox_way.currentIndex()][1])
+            self.lineEdit_path.setText(self.list[self.comboBox_way.currentIndex()][2])
         except:
             print('未选择文件')
 
@@ -83,6 +96,14 @@ class Show(QMainWindow,Ui_MianWIndow):
             self.Result("{}\t{}".format(self.name,str(response.status_code)))
             self.ResponseBody(response.text)
 
+    def RequestAll(self):
+        # response = []
+        # try:
+        #     for i in self.list:
+        #         method = i[1]
+        #         url = '{}{}'.format(host,i[2])
+        #         response.append(requests.request(method=method,url=url,headers=headers,params=))
+        pass
 
     def Body(self):
         if self.checkBox_body.isChecked():
@@ -105,6 +126,10 @@ class Show(QMainWindow,Ui_MianWIndow):
     def Header(self):
         if self.checkBox_header.isChecked():
             self.Layout_param.addWidget(self.header_edit)
+            try:
+                self.header_edit.setPlainText(headers)
+            except Exception as e:
+                print(e)
         if not self.checkBox_header.isChecked():
             self.Layout_param.removeWidget(self.header_edit)
             sip.delete(self.header_edit)
