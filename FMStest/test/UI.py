@@ -1,49 +1,92 @@
-from PyQt5.QtWidgets import *
-from PyQt5 import QtWidgets,QtCore,QtGui
-import sys
-import pandas as pd
+# -*- coding: utf-8 -*-
 
-class UI_MainWindow(QMainWindow):
-    def __init__(self):
-        super(UI_MainWindow, self).__init__()
-        self.setWindowTitle('FMSApitest')
-        self.setWindowIcon(QtGui.QIcon('./fms.png'))
-        self.resize(640,480)
-        self.main_widget = QtWidgets.QWidget()
-        self.main_layout = QtWidgets.QGridLayout()
-        self.main_widget.setLayout(self.main_layout)
-        # self.pushbutton_add = QtWidgets.QPushButton()
-        # self.main_layout.addWidget(self.pushbutton_add)
-        # self.pushbutton_add.setText('加一行')
-        self.setCentralWidget(self.main_widget)
-        # self.pushbutton_add.clicked.connect(self.Addline)
-        self.combox = QtWidgets.QComboBox()
-        self.combox.text
-        self.methodlebal = QtWidgets.QLabel()
-        self.combox.activated.connect(self.Label)
+# Form implementation generated from reading ui file 'UI.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
 
-    def Addline(self):
-        self.lineedit = QLineEdit()
-        self.main_layout.addWidget(self.lineedit)
+from PyQt5 import QtCore, QtGui, QtWidgets
 
-    def Getexcel(self):
-        excel = pd.read_excel('./FMS接口.xlsx')
-        self.lines = excel.values
-        for i in self.lines:
-            self.combox.addItem(i[0],i[1])
-        self.main_layout.addWidget(self.combox)
+class Ui_MianWIndow(object):
+    def setupUi(self, MianWIndow):
+        MianWIndow.setObjectName("MianWIndow")
+        MianWIndow.resize(1007, 708)
+        self.widget = QtWidgets.QWidget(MianWIndow)
+        self.widget.setGeometry(QtCore.QRect(0, 0, 1001, 71))
+        self.widget.setObjectName("widget")
+        self.label_method = QtWidgets.QLabel(self.widget)
+        self.label_method.setGeometry(QtCore.QRect(590, 20, 81, 24))
+        self.label_method.setText("")
+        self.label_method.setObjectName("label_method")
+        self.pushButton_request = QtWidgets.QPushButton(self.widget)
+        self.pushButton_request.setGeometry(QtCore.QRect(840, 20, 112, 24))
+        self.pushButton_request.setObjectName("pushButton_request")
+        self.comboBox_way = QtWidgets.QComboBox(self.widget)
+        self.comboBox_way.setGeometry(QtCore.QRect(0, 20, 421, 24))
+        self.comboBox_way.setEditable(False)
+        self.comboBox_way.setCurrentText("")
+        self.comboBox_way.setObjectName("comboBox_way")
+        self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.widget)
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(700, 0, 131, 61))
+        self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem)
+        self.horizontalLayoutWidget = QtWidgets.QWidget(self.widget)
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(430, 0, 151, 61))
+        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.checkBox_header = QtWidgets.QCheckBox(MianWIndow)
+        self.checkBox_header.setGeometry(QtCore.QRect(20, 90, 81, 22))
+        self.checkBox_header.setObjectName("checkBox_header")
+        self.checkBox_query = QtWidgets.QCheckBox(MianWIndow)
+        self.checkBox_query.setGeometry(QtCore.QRect(110, 90, 81, 22))
+        self.checkBox_query.setObjectName("checkBox_query")
+        self.widget_param = QtWidgets.QWidget(MianWIndow)
+        self.widget_param.setGeometry(QtCore.QRect(10, 130, 991, 201))
+        self.widget_param.setObjectName("widget_param")
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.widget_param)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(0, 0, 991, 201))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.Layout_param = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.Layout_param.setContentsMargins(0, 0, 0, 0)
+        self.Layout_param.setObjectName("Layout_param")
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.Layout_param.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.Layout_param.addItem(spacerItem3)
+        self.verticalLayoutWidget = QtWidgets.QWidget(MianWIndow)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(330, 70, 671, 61))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem4)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.verticalLayout.addItem(spacerItem5)
+        self.widget_3 = QtWidgets.QWidget(MianWIndow)
+        self.widget_3.setGeometry(QtCore.QRect(210, 70, 111, 61))
+        self.widget_3.setObjectName("widget_3")
+        self.checkBox_body = QtWidgets.QCheckBox(self.widget_3)
+        self.checkBox_body.setGeometry(QtCore.QRect(10, 20, 81, 22))
+        self.checkBox_body.setObjectName("checkBox_body")
 
-    def Label(self):
-        self.methodlebal.setText(str(self.lines[self.combox.currentIndex()][1]))
-        self.main_layout.addWidget(self.methodlebal)
+        self.retranslateUi(MianWIndow)
+        QtCore.QMetaObject.connectSlotsByName(MianWIndow)
 
+    def retranslateUi(self, MianWIndow):
+        _translate = QtCore.QCoreApplication.translate
+        MianWIndow.setWindowTitle(_translate("MianWIndow", "Form"))
+        self.pushButton_request.setText(_translate("MianWIndow", "测试"))
+        self.checkBox_header.setText(_translate("MianWIndow", "Header"))
+        self.checkBox_query.setText(_translate("MianWIndow", "Query"))
+        self.checkBox_body.setText(_translate("MianWIndow", "Body"))
 
-def main():
-    app = QApplication(sys.argv)
-    gui = UI_MainWindow()
-    gui.Getexcel()
-    gui.show()
-    sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()
