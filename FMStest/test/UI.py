@@ -7,6 +7,7 @@ class UI_MainWindow(QMainWindow):
     def __init__(self):
         super(UI_MainWindow, self).__init__()
         self.setWindowTitle('FMSApitest')
+        self.setWindowIcon(QtGui.QIcon('./fms.png'))
         self.resize(640,480)
         self.main_widget = QtWidgets.QWidget()
         self.main_layout = QtWidgets.QGridLayout()
