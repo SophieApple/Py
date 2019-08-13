@@ -81,6 +81,7 @@ class Show(QMainWindow,Ui_MianWIndow):
             # self.Result('{}:\t{}'.format(self.name,response.status_code))
             # self.Result(response.text)
             self.Result("{}\t{}".format(self.name,str(response.status_code)))
+            self.ResponseBody(response.text)
 
 
     def Body(self):
@@ -113,6 +114,9 @@ class Show(QMainWindow,Ui_MianWIndow):
     def Result(self,list):
         self.textBrowser_result.append(list)
         # self.textBrowser_result.setText(list)
+
+    def ResponseBody(self,list):
+        self.textBrowser_responsebody.setText(list)
 
     def Clear(self):
         self.textBrowser_result.setText("")

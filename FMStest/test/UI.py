@@ -12,6 +12,8 @@ class Ui_MianWIndow(object):
     def setupUi(self, MianWIndow):
         MianWIndow.setObjectName("MianWIndow")
         MianWIndow.resize(1007, 708)
+        MianWIndow.setMinimumSize(QtCore.QSize(1007, 708))
+        MianWIndow.setMaximumSize(QtCore.QSize(1007, 708))
         self.scrollArea = QtWidgets.QScrollArea(MianWIndow)
         self.scrollArea.setGeometry(QtCore.QRect(0, 0, 1011, 711))
         self.scrollArea.setWidgetResizable(True)
