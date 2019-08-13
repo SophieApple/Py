@@ -2,13 +2,14 @@ import sys,requests,time,os
 from bs4 import BeautifulSoup
 
 
-def getpic(start=0,end=200):
+def getpic(start=0,end=10):
     srclist = []
 
 
     for i in range(start,end):
         try:
-            re = requests.get('http://jandan.net/pic/page-{}#comments'.format(i)).text
+            # re = requests.get('http://jandan.net/pic/page-{}#comments'.format(i)).text
+            re = requests.get('https://wallhere.com/en/wallpaper/{}'.format(i)).text
         except:
             continue
         soup = BeautifulSoup(re,'lxml')
@@ -21,8 +22,8 @@ def getpic(start=0,end=200):
     # for i in srclist:
     #     print(i.split('/')[-1])
 
-    if not os.path.exists('./pic'):
-        os.mkdir('./pic')
+    if not os.path.exists('./pic2'):
+        os.mkdir('./pic2')
     succes = []
     fail = []
     exist = []
