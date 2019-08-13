@@ -247,6 +247,16 @@
       <height>319</height>
      </rect>
     </property>
+    <widget class="QTextBrowser" name="textBrowser_result">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>311</width>
+       <height>321</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QLabel" name="label">
