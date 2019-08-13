@@ -18,6 +18,7 @@ class UI_MainWindow(QMainWindow):
         self.setCentralWidget(self.main_widget)
         # self.pushbutton_add.clicked.connect(self.Addline)
         self.combox = QtWidgets.QComboBox()
+        self.combox.text
         self.methodlebal = QtWidgets.QLabel()
         self.combox.activated.connect(self.Label)
 
