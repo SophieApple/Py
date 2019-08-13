@@ -79,8 +79,8 @@ class Show(QMainWindow,Ui_MianWIndow):
             response = requests.request(method=self.method,url=self.url,params=self.request_query,headers=self.request_header,data=self.request_body)
             print(response.content)
             # self.Result('{}:\t{}'.format(self.name,response.status_code))
-            self.Result(response.text)
-            # self.Result(str(response.status_code))
+            # self.Result(response.text)
+            self.Result("{}\t{}".format(self.name,str(response.status_code)))
 
 
     def Body(self):
