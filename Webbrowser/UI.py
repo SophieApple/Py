@@ -25,9 +25,11 @@ class UI(QMainWindow,):
         self.browser = QWebEngineView()
         Url = 'http://www.baidu.com'
         self.browser.setUrl(QtCore.QUrl(Url))
-        # self.tabs_layout.addWidget(self.browser)
-        self.tabs.addTab(self.browser,'ok')
+        self.tabs_layout.addWidget(self.browser)
+        self.tabs.addTab(self.browser,'')
+        self.browser.loadFinished.connect(lambda :self.tabs.setTabText(0,self.browser.page().title()))
         self.setCentralWidget(self.tabs)
+
 
 
         self.turn_button = QAction(QIcon('./zhuandao.png'),'Turn',self)
@@ -57,7 +59,8 @@ class UI(QMainWindow,):
         self.browser.urlChanged.connect(self.setUrlLine)
         self.tabs.tabBarDoubleClicked.connect(self.NewPage)
         self.add_button.triggered.connect(self.NewPage)
-        self.a = 0
+        self.tabs.tabCloseRequested.connect(self.Closepage)
+
 
     def setUrlLine(self,url):
         self.url_edit.setText(url.toString())
@@ -71,11 +74,16 @@ class UI(QMainWindow,):
         browser = QWebEngineView()
         Url = 'http://www.baidu.com'
         browser.setUrl(QtCore.QUrl(Url))
-        self.tabs.addTab(browser,label)
-        self.tabs.setLayout(self.tabs_layout)
-        self.a += 1
-        self.tabs.
-        print(self.a)
+        i = self.tabs.addTab(browser,label)
+        self.tabs.setCurrentIndex(i)
+        print(i)
+
+        browser.loadFinished.connect(lambda :self.tabs.setTabText(i,browser.page().title()))
+
+    def Closepage(self,i):
+        if self.tabs.count() < 2:
+            return
+        self.tabs.removeTab(i)
 
 
 
