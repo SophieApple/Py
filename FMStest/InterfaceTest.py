@@ -9,11 +9,6 @@ class analyseExcel():
         self.excel = pd.read_excel('./FMS接口.xlsx')
 
 
-
-
-
-
-
 if __name__ == '__main__':
     a = analyseExcel()
     a.readExcel()
