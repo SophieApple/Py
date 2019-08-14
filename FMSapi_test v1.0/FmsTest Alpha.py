@@ -141,11 +141,12 @@ class Show(QMainWindow,Ui_MianWIndow):
         print(self.method,self.url)
         if not Mark:
             self.label_requeststatus.setText('请检查输入的参数！！')
-            self.label_requeststatus.setStyleSheet()
+            self.label_requeststatus.setStyleSheet('color: rgb(255, 0, 0)')
         if Mark:
             try:
                 response = requests.request(method=self.method,url=self.url,params=self.request_query,headers=self.request_header,data=self.request_body)
                 self.label_requeststatus.setText('请求成功！')
+                self.label_requeststatus.setStyleSheet('color: rgb(0,255,0)')
                 print(response.text)
                 # self.Result('{}:\t{}'.format(self.name,response.status_code))
                 # self.Result(response.text)
@@ -154,7 +155,7 @@ class Show(QMainWindow,Ui_MianWIndow):
             except Exception as e:
                 print(e)
                 self.label_requeststatus.setText('请求失败！')
-
+                self.label_requeststatus.setStyleSheet('color: rgb(255, 0, 0)')
     def RequestAll(self):
         print('in')
         Len = len(self.list)

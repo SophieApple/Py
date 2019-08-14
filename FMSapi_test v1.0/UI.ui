@@ -318,7 +318,7 @@ font: 87 9pt &quot;Arial&quot;;</string>
        <string notr="true"/>
       </property>
       <property name="text">
-       <string>成功</string>
+       <string/>
       </property>
      </widget>
     </widget>
