@@ -1,6 +1,10 @@
 import sys,requests,sip,json
 # sys.path.append('D:\PycharmProjects\Py\FMStest\test')
 from UI import Ui_MianWIndow
+try:
+    from .UI import Ui_MianWIndow
+except:
+    print()
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets,QtCore,QtGui
 import pandas as pd
@@ -61,7 +65,7 @@ class Show(QMainWindow,Ui_MianWIndow):
         except Exception as e:
             print(e)
         print('done!')
-        self.list = self.excelchange.values
+        self.list = self.excelchange
 
         print('Save Success!!')
 
@@ -79,28 +83,29 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.filename,self.filetype = QFileDialog.getOpenFileName(self,"选择文件","./","所有文件 (*);;Excel (.xlsx)")
         try:
             self.comboBox_way.clear()
-            self.list = pd.read_excel(self.filename).values
-            for i in self.list:
+            self.list = pd.read_excel(self.filename)
+            for i in self.list.values:
                 self.comboBox_way.addItem(i[0])
-            self.label_method.setText(self.list[self.comboBox_way.currentIndex()][1])
-            self.lineEdit_path.setText(self.list[self.comboBox_way.currentIndex()][2])
+            self.label_method.setText(self.list.values[self.comboBox_way.currentIndex()][1])
+            self.lineEdit_path.setText(self.list.values[self.comboBox_way.currentIndex()][2])
         except:
             print('未选择文件或文件内容不符合规范')
 
     def ChoicePath(self):
         self.name = self.comboBox_way.currentText()
-        self.path = self.list[self.comboBox_way.currentIndex()][2]
-        self.method = self.list[self.comboBox_way.currentIndex()][1]
+        self.path = self.list.values[self.comboBox_way.currentIndex()][2]
+        self.method = self.list.values[self.comboBox_way.currentIndex()][1]
         self.label_method.setText(self.method)
         if self.method == 'GET':
             self.checkBox_body.setCheckable(False)
-            # self.checkBox_body.close()
         self.lineEdit_path.setText(self.path)
         print(self.method,self.path)
 
 
     def Request(self):
         print('in')
+        self.method = self.label_method.text()
+        self.name = self.comboBox_way.currentText()
         self.request_body = ''
         self.request_header = ''
         self.request_query = ''
@@ -130,24 +135,60 @@ class Show(QMainWindow,Ui_MianWIndow):
         print(self.method,self.url)
         if Mark:
             response = requests.request(method=self.method,url=self.url,params=self.request_query,headers=self.request_header,data=self.request_body)
-            print(response.content)
+            print(response.text)
             # self.Result('{}:\t{}'.format(self.name,response.status_code))
             # self.Result(response.text)
             self.Result("{}\t{}".format(self.name,str(response.status_code)))
             self.ResponseBody(response.text)
 
     def RequestAll(self):
-        # response = []
+        print('in')
+        Len = len(self.list)
+        print(Len)
+        self.response_code = []
+        self.response_text = []
+        header = ''
+        param = ''
+        body = ''
+        for i in range(0,5):
+            print('start')
+            method = self.list['method'][i]
+            url = "http://{}{}".format(host,self.list['path'])
+
+            if not self.list['headers'].isnull()[i]:
+                # try:
+                    header = json.loads(self.list['headers'][i])
+                    print(header)
+                # except Exception as e:
+                #     print(e)
+            if not self.list['params'].isnull()[i]:
+                # try:
+                    param = json.loads(self.list['params'][i])
+                    print(param)
+                # except Exception as e:
+                #     print(e)
+            if not self.list['body'].isnull()[i]:
+                # try:
+                    body = json.loads(self.list['body'][i])
+                    print(body)
+                # except Exception as e:
+                #     print(e)
+
+            print('start request!!!')
         # try:
-        #     for i in self.list:
-        #         method = i[1]
-        #         url = '{}{}'.format(host,i[2])
-        #         response.append(requests.request(method=method,url=url,headers=headers,params=))
+            response = requests.request(method=method,url=url,headers=header,params=param,data=body)
+            self.response_code.append(response.status_code)
+            self.response_text.append(response.text)
+            self.Result("{}\t{}".format(self.list['功能'][i],str(response.status_code)))
+        # except Exception as e:
+        #     print(e)
+
         pass
 
     def Body(self):
         if self.checkBox_body.isChecked():
             self.Layout_param.addWidget(self.body_edit)
+            self.body_edit.setPlainText(self.list['body'][self.comboBox_way.currentIndex()])
         if not self.checkBox_body.isChecked():
             self.Layout_param.removeWidget(self.body_edit)
             sip.delete(self.body_edit)
