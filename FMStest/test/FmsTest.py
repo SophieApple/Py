@@ -99,6 +99,7 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.label_method.setText(self.method)
         if self.method == 'GET':
             self.checkBox_body.setCheckable(False)
+            self.Body()
         self.lineEdit_path.setText(self.path)
         print(self.method,self.path)
 
