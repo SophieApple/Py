@@ -298,6 +298,29 @@ font: 87 9pt &quot;Arial&quot;;</string>
        <string>导入</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_requeststatus">
+      <property name="geometry">
+       <rect>
+        <x>722</x>
+        <y>49</y>
+        <width>261</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>成功</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QScrollArea" name="scrollArea_2">
      <property name="geometry">

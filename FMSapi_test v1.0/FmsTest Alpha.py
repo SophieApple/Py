@@ -6,7 +6,7 @@ try:
 except:
     print()
 from PyQt5.QtWidgets import *
-from PyQt5 import QtWidgets,QtCore,QtGui
+from PyQt5 import QtWidgets,QtGui
 import pandas as pd
 
 host = 'http://192.168.83.200:8088'
@@ -98,7 +98,11 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.method = self.list.values[self.comboBox_way.currentIndex()][1]
         self.label_method.setText(self.method)
         if self.method == 'GET':
+            self.checkBox_body.setChecked(False)
             self.checkBox_body.setCheckable(False)
+            self.Body()
+        else:
+            self.checkBox_body.setCheckable(True)
             self.Body()
         self.lineEdit_path.setText(self.path)
         print(self.method,self.path)
@@ -135,13 +139,21 @@ class Show(QMainWindow,Ui_MianWIndow):
                 Mark = False
         print('here')
         print(self.method,self.url)
+        if not Mark:
+            self.label_requeststatus.setText('请检查输入的参数！！')
+            self.label_requeststatus.setStyleSheet()
         if Mark:
-            response = requests.request(method=self.method,url=self.url,params=self.request_query,headers=self.request_header,data=self.request_body)
-            print(response.text)
-            # self.Result('{}:\t{}'.format(self.name,response.status_code))
-            # self.Result(response.text)
-            self.Result("{}\t{}".format(self.name,str(response.status_code)))
-            self.ResponseBody(response.text)
+            try:
+                response = requests.request(method=self.method,url=self.url,params=self.request_query,headers=self.request_header,data=self.request_body)
+                self.label_requeststatus.setText('请求成功！')
+                print(response.text)
+                # self.Result('{}:\t{}'.format(self.name,response.status_code))
+                # self.Result(response.text)
+                self.Result("{}\t{}".format(self.name,str(response.status_code)))
+                self.ResponseBody(response.text)
+            except Exception as e:
+                print(e)
+                self.label_requeststatus.setText('请求失败！')
 
     def RequestAll(self):
         print('in')
@@ -197,7 +209,10 @@ class Show(QMainWindow,Ui_MianWIndow):
     def Body(self):
         if self.checkBox_body.isChecked():
             self.Layout_param.addWidget(self.body_edit)
-            self.body_edit.setPlainText(self.list['body'][self.comboBox_way.currentIndex()])
+            if self.list['body'].isnull()[self.comboBox_way.currentIndex()]:
+                self.body_edit.setPlainText('')
+            else:
+                self.body_edit.setPlainText(self.list['body'][self.comboBox_way.currentIndex()])
         if not self.checkBox_body.isChecked():
             self.Layout_param.removeWidget(self.body_edit)
             sip.delete(self.body_edit)
