@@ -40,6 +40,7 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.checkBox_header.stateChanged.connect(self.Header)
         self.pushButton_save.clicked.connect(self.Save)
         self.pushButton_saveAll.clicked.connect(self.SaveAll)
+        self.pushButton_export.clicked.connect(self.Export)
 
     def Save(self):
         print('a')
@@ -150,38 +151,45 @@ class Show(QMainWindow,Ui_MianWIndow):
         header = ''
         param = ''
         body = ''
-        for i in range(0,5):
+        for i in range(0,Len):
             print('start')
             method = self.list['method'][i]
-            url = "http://{}{}".format(host,self.list['path'])
-
+            url = "{}{}".format(host,self.list['path'][i])
+            print(url)
+            Mark = True
             if not self.list['headers'].isnull()[i]:
-                # try:
+                try:
                     header = json.loads(self.list['headers'][i])
                     print(header)
-                # except Exception as e:
-                #     print(e)
+                except Exception as e:
+                    print(e)
+                    Mark = False
             if not self.list['params'].isnull()[i]:
-                # try:
+                try:
                     param = json.loads(self.list['params'][i])
                     print(param)
-                # except Exception as e:
-                #     print(e)
+                except Exception as e:
+                    print(e)
+                    Mark = False
+
             if not self.list['body'].isnull()[i]:
-                # try:
+                try:
                     body = json.loads(self.list['body'][i])
                     print(body)
-                # except Exception as e:
-                #     print(e)
+                except Exception as e:
+                    print(e)
+                    Mark = False
 
-            print('start request!!!')
-        # try:
-            response = requests.request(method=method,url=url,headers=header,params=param,data=body)
-            self.response_code.append(response.status_code)
-            self.response_text.append(response.text)
-            self.Result("{}\t{}".format(self.list['功能'][i],str(response.status_code)))
-        # except Exception as e:
-        #     print(e)
+            if Mark:
+                print('start request!!!')
+                response = requests.request(method=method,url=url,headers=header,params=param,data=body)
+
+                self.response_code.append(response.status_code)
+                self.response_text.append(response.text)
+                self.Result("{}\t{}".format(self.list['功能'][i],str(response.status_code)))
+                print('request end\n')
+            # except Exception as e:
+            #     print(e)
 
         pass
 
@@ -226,6 +234,21 @@ class Show(QMainWindow,Ui_MianWIndow):
 
     def Clear(self):
         self.textBrowser_result.setText("")
+
+    def Export(self):
+        resultList = self.textBrowser_result.toPlainText()
+        self.Save()
+        with open(self.savepath,'w') as f:
+            f.write(str(resultList))
+
+    def Save(self):
+        self.savepath,self.savetype = QFileDialog.getSaveFileName(self,'选择保存路径','./',"All Files(*)")
+        if self.savepath == '':
+            print('取消选择')
+            return
+        print('\n保存文件：')
+        print(self.savepath)
+        print('类型：',self.savetype)
 
 
 def main():

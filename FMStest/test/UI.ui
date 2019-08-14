@@ -374,6 +374,19 @@ font: 87 9pt &quot;Arial&quot;;</string>
       <string>▲保存所有修改</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_export">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>350</y>
+       <width>60</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>export</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

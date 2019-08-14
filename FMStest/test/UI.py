@@ -116,6 +116,9 @@ class Ui_MianWIndow(object):
         self.pushButton_saveAll = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton_saveAll.setGeometry(QtCore.QRect(851, 340, 151, 24))
         self.pushButton_saveAll.setObjectName("pushButton_saveAll")
+        self.pushButton_export = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_export.setGeometry(QtCore.QRect(130, 350, 60, 24))
+        self.pushButton_export.setObjectName("pushButton_export")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.retranslateUi(MianWIndow)
@@ -135,4 +138,5 @@ class Ui_MianWIndow(object):
         self.label_2.setText(_translate("MianWIndow", "ResponseBody"))
         self.pushButton_save.setText(_translate("MianWIndow", "保存"))
         self.pushButton_saveAll.setText(_translate("MianWIndow", "▲保存所有修改"))
+        self.pushButton_export.setText(_translate("MianWIndow", "export"))
 
