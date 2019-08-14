@@ -6,7 +6,7 @@ try:
 except:
     print()
 from PyQt5.QtWidgets import *
-from PyQt5 import QtWidgets,QtGui
+from PyQt5 import QtWidgets,QtGui,QtCore
 import pandas as pd
 
 host = 'http://192.168.83.200:8088'
@@ -41,6 +41,11 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.pushButton_save.clicked.connect(self.Save)
         self.pushButton_saveAll.clicked.connect(self.SaveAll)
         self.pushButton_export.clicked.connect(self.Export)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.Label_init)
+        self.timer.start(3000)
+    def Label_init(self):
+        self.label_requeststatus.setText('')
 
     def Save(self):
         print('a')
@@ -248,17 +253,20 @@ class Show(QMainWindow,Ui_MianWIndow):
 
     def ResponseBody(self,list):
         self.textBrowser_responsebody.setText(list)
+        # self.textBrowser_responsebody.setText(str(json.dumps(list,indent=2,ensure_ascii=False)))
+
+
 
     def Clear(self):
         self.textBrowser_result.setText("")
 
     def Export(self):
         resultList = self.textBrowser_result.toPlainText()
-        self.Save()
+        self.ExportResult()
         with open(self.savepath,'w') as f:
             f.write(str(resultList))
 
-    def Save(self):
+    def ExportResult(self):
         self.savepath,self.savetype = QFileDialog.getSaveFileName(self,'选择保存路径','./',"All Files(*)")
         if self.savepath == '':
             print('取消选择')
