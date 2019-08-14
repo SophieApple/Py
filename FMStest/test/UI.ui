@@ -298,19 +298,6 @@ font: 87 9pt &quot;Arial&quot;;</string>
        <string>导入</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_saveAll">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>20</y>
-        <width>112</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>保存所有修改</string>
-      </property>
-     </widget>
     </widget>
     <widget class="QScrollArea" name="scrollArea_2">
      <property name="geometry">
@@ -371,7 +358,20 @@ font: 87 9pt &quot;Arial&quot;;</string>
       </rect>
      </property>
      <property name="text">
-      <string>Save</string>
+      <string>保存</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_saveAll">
+     <property name="geometry">
+      <rect>
+       <x>851</x>
+       <y>340</y>
+       <width>151</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>▲保存所有修改</string>
      </property>
     </widget>
    </widget>

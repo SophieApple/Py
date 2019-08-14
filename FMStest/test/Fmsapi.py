@@ -34,6 +34,34 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.checkBox_body.stateChanged.connect(self.Body)
         self.checkBox_query.stateChanged.connect(self.Query)
         self.checkBox_header.stateChanged.connect(self.Header)
+        self.pushButton_save.clicked.connect(self.Save)
+        self.pushButton_saveAll.clicked.connect(self.SaveAll)
+
+    def Save(self):
+        self.excelchange = self.list
+        try:
+            self.excelchange['method'][self.comboBox_way.currentIndex()] = self.lineEdit_path.text()
+        except Exception as e:
+            print(e)
+        try:
+            self.excelchange['headers'][self.comboBox_way.currentIndex()] = self.header_edit.toPlainText()
+        except Exception as e:
+            print(e)
+        try:
+            self.excelchange['params'][self.comboBox_way.currentIndex()] = self.query_edit.toPlainText()
+        except Exception as e:
+            print(e)
+        try:
+            self.excelchange['body'][self.comboBox_way.currentIndex()] = self.body_edit.toPlainText()
+        except Exception as e:
+            print(e)
+
+        self.list = self.excelchange
+
+        print('Save Success!!')
+
+    def SaveAll(self):
+        self.excelchange.to_excel(self.filename)
 
 
 
@@ -49,6 +77,7 @@ class Show(QMainWindow,Ui_MianWIndow):
             self.lineEdit_path.setText(self.list[self.comboBox_way.currentIndex()][2])
         except:
             print('未选择文件')
+        self.excelchange = self.list
 
     def ChoicePath(self):
         self.name = self.comboBox_way.currentText()
