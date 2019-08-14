@@ -38,9 +38,14 @@ class Show(QMainWindow,Ui_MianWIndow):
         self.pushButton_saveAll.clicked.connect(self.SaveAll)
 
     def Save(self):
-        self.excelchange = self.list
+        print('a')
+        self.excelchange = pd.read_excel(self.filename)
+        print('b')
+        print(self.excelchange)
+        # print(self.lineEdit_path.text(),self.header_edit.toPlainText(),self.query_edit.toPlainText(),self.body_edit.toPlainText())
+        print(type(self.lineEdit_path.text()))
         try:
-            self.excelchange['method'][self.comboBox_way.currentIndex()] = self.lineEdit_path.text()
+            self.excelchange['path'][self.comboBox_way.currentIndex()] = self.lineEdit_path.text()
         except Exception as e:
             print(e)
         try:
@@ -55,13 +60,17 @@ class Show(QMainWindow,Ui_MianWIndow):
             self.excelchange['body'][self.comboBox_way.currentIndex()] = self.body_edit.toPlainText()
         except Exception as e:
             print(e)
-
-        self.list = self.excelchange
+        print('done!')
+        self.list = self.excelchange.values
 
         print('Save Success!!')
 
     def SaveAll(self):
-        self.excelchange.to_excel(self.filename)
+        try:
+            self.excelchange.to_excel(self.filename,index=False,header=True)
+            print('SaveAll!!')
+        except Exception as e:
+            print(e)
 
 
 
@@ -76,14 +85,15 @@ class Show(QMainWindow,Ui_MianWIndow):
             self.label_method.setText(self.list[self.comboBox_way.currentIndex()][1])
             self.lineEdit_path.setText(self.list[self.comboBox_way.currentIndex()][2])
         except:
-            print('未选择文件')
-        self.excelchange = self.list
+            print('未选择文件或文件内容不符合规范')
 
     def ChoicePath(self):
         self.name = self.comboBox_way.currentText()
         self.path = self.list[self.comboBox_way.currentIndex()][2]
         self.method = self.list[self.comboBox_way.currentIndex()][1]
         self.label_method.setText(self.method)
+        if self.method == 'GET':
+            self.checkBox_body.setCheckable(False)
         self.lineEdit_path.setText(self.path)
         print(self.method,self.path)
 
