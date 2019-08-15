@@ -263,8 +263,10 @@ class Show(QMainWindow,Ui_MianWIndow):
     def Export(self):
         resultList = self.textBrowser_result.toPlainText()
         self.ExportResult()
-        with open(self.savepath,'w') as f:
-            f.write(str(resultList))
+        if self.savepath != '':
+            with open(self.savepath,'w') as f:
+                f.write(str(resultList))
+                
 
     def ExportResult(self):
         self.savepath,self.savetype = QFileDialog.getSaveFileName(self,'选择保存路径','./',"All Files(*)")
