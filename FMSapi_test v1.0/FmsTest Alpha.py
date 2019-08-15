@@ -157,7 +157,7 @@ class Show(QMainWindow, Ui_MianWIndow):
         if Mark:
             try:
                 response = requests.request(method=self.method, url=self.url, params=self.request_query,
-                                            headers=self.request_header, data=self.request_body)
+                                            headers=self.request_header, json=self.request_body)
                 self.label_requeststatus.setText('请求成功！')
                 self.label_requeststatus.setStyleSheet('color: rgb(0,255,0)')
                 print(response.text)
