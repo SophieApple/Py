@@ -26,11 +26,15 @@ class Show(QMainWindow, Ui_MianWIndow):
         # self.query_edit.setPlaceholderText('输入Query')
         # self.header_edit = QtWidgets.QTextEdit()
         # self.header_edit.setPlaceholderText('输入Header')
+
         self.body_edit = QtWidgets.QPlainTextEdit()
+        # self.body_edit = QtWidgets.QTextEdit()
         self.body_edit.setPlaceholderText('输入Body')
         self.query_edit = QtWidgets.QPlainTextEdit()
+        # self.query_edit = QtWidgets.QTextEdit()
         self.query_edit.setPlaceholderText('输入Query')
         self.header_edit = QtWidgets.QPlainTextEdit()
+        # self.header_edit = QtWidgets.QTextEdit()
         self.header_edit.setPlaceholderText('输入Header')
 
         self.setupUi(self)
