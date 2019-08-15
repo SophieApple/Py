@@ -1,4 +1,4 @@
-import sys, requests, sip, json
+import sys, requests, sip, json,configparser,time
 # sys.path.append('D:\PycharmProjects\Py\FMStest\test')
 from UI import Ui_MianWIndow
 
@@ -19,6 +19,11 @@ logging.basicConfig(filename='test.log', filemode='a', format="%(asctime)s %(nam
 class Show(QMainWindow, Ui_MianWIndow):
     def __init__(self):
         super(Show, self).__init__()
+
+        ##读取配置文件
+        self.config = configparser.ConfigParser()
+        self.Secs = self.config.sections()
+
         self.setWindowIcon(QtGui.QIcon('./fms.png'))
         # self.body_edit = QtWidgets.QTextEdit()
         # self.body_edit.setPlaceholderText('输入Body')
@@ -132,20 +137,20 @@ class Show(QMainWindow, Ui_MianWIndow):
         self.url = 'http://192.168.83.200:8088{}'.format(self.lineEdit_path.text())
         if self.checkBox_body.isChecked() and len(self.body_edit.toPlainText()) != 0:
             try:
-                self.request_body = json.loads(self.body_edit.toPlainText())
+                self.request_body = json.loads(self.ReplaceStr(section='Id',str=self.body_edit.toPlainText()))
                 print(self.request_body)
             except Exception as e:
                 logging.exception(e)
                 Mark = False
         if self.checkBox_header.isChecked() and len(self.header_edit.toPlainText()) != 0:
             try:
-                self.request_header = json.loads(self.header_edit.toPlainText())
+                self.request_header = json.loads(self.ReplaceStr(section='Id',str=self.header_edit.toPlainText()))
             except Exception as e:
                 logging.exception(e)
                 Mark = False
         if self.checkBox_query.isChecked() and len(self.query_edit.toPlainText()) != 0:
             try:
-                self.request_query = json.loads(self.query_edit.toPlainText())
+                self.request_query = json.loads(self.ReplaceStr(section='Id',str=self.query_edit.toPlainText()))
             except Exception as e:
                 logging.exception(e)
                 Mark = False
@@ -156,6 +161,7 @@ class Show(QMainWindow, Ui_MianWIndow):
             self.label_requeststatus.setStyleSheet('color: rgb(255, 0, 0)')
         if Mark:
             try:
+                logging.debug('【Request】 [url]:{} [method]:{} [header]:{} [query]:{} [body]:{}'.format(self.url,self.method,self.request_header,self.request_query,self.request_body))
                 response = requests.request(method=self.method, url=self.url, params=self.request_query,
                                             headers=self.request_header, json=self.request_body)
                 self.label_requeststatus.setText('请求成功！')
@@ -210,7 +216,8 @@ class Show(QMainWindow, Ui_MianWIndow):
 
             if Mark:
                 print('start request!!!')
-                response = requests.request(method=method, url=url, headers=header, params=param, data=body)
+                logging.debug('【Request】 [url]:{} [method]:{} [header]:{} [query]:{} [body]:{}'.format(url,method,header,param,body))
+                response = requests.request(method=method, url=url, headers=header, params=param, json=body)
 
                 self.response_code.append(response.status_code)
                 self.response_text.append(response.text)
@@ -282,6 +289,17 @@ class Show(QMainWindow, Ui_MianWIndow):
         print('\n保存文件：')
         print(self.savepath)
         print('类型：', self.savetype)
+
+    def ReplaceStr(self,section,str):
+        if section in self.Secs:
+            for i in self.config.items(section):
+                if i[1] != 'time':
+                    str = str.replace(old=i[0],new=i[1])
+                else:
+                    str = str.replace(old=i[0],new=str(time.time()).split('.')[0][8:]+str(time.time()).split('.')[1][2:])
+        return str
+
+
 
 
 def main():
