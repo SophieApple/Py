@@ -1,4 +1,4 @@
-import sys, requests, sip, json,configparser,time
+import sys, requests, sip, json,configparser,time,random
 # sys.path.append('D:\PycharmProjects\Py\FMStest\test')
 from UI import Ui_MianWIndow
 
@@ -22,6 +22,7 @@ class Show(QMainWindow, Ui_MianWIndow):
 
         ##读取配置文件
         self.config = configparser.ConfigParser()
+        self.config.read('./config.ini')
         self.Secs = self.config.sections()
 
         self.setWindowIcon(QtGui.QIcon('./fms.png'))
@@ -137,20 +138,20 @@ class Show(QMainWindow, Ui_MianWIndow):
         self.url = 'http://192.168.83.200:8088{}'.format(self.lineEdit_path.text())
         if self.checkBox_body.isChecked() and len(self.body_edit.toPlainText()) != 0:
             try:
-                self.request_body = json.loads(self.ReplaceStr(section='Id',str=self.body_edit.toPlainText()))
+                self.request_body = json.loads(self.ReplaceStr(section='Id',s=self.body_edit.toPlainText()))
                 print(self.request_body)
             except Exception as e:
                 logging.exception(e)
                 Mark = False
         if self.checkBox_header.isChecked() and len(self.header_edit.toPlainText()) != 0:
             try:
-                self.request_header = json.loads(self.ReplaceStr(section='Id',str=self.header_edit.toPlainText()))
+                self.request_header = json.loads(self.ReplaceStr(section='Id',s=self.header_edit.toPlainText()))
             except Exception as e:
                 logging.exception(e)
                 Mark = False
         if self.checkBox_query.isChecked() and len(self.query_edit.toPlainText()) != 0:
             try:
-                self.request_query = json.loads(self.ReplaceStr(section='Id',str=self.query_edit.toPlainText()))
+                self.request_query = json.loads(self.ReplaceStr(section='Id',s=self.query_edit.toPlainText()))
             except Exception as e:
                 logging.exception(e)
                 Mark = False
@@ -290,15 +291,36 @@ class Show(QMainWindow, Ui_MianWIndow):
         print(self.savepath)
         print('类型：', self.savetype)
 
-    def ReplaceStr(self,section,str):
+    def ReplaceStr(self,section,s):
+        print('开始转义！')
+        # print(section,s,type(s))
+        # print(section,self.Secs)
         if section in self.Secs:
-            for i in self.config.items(section):
-                if i[1] != 'time':
-                    str = str.replace(old=i[0],new=i[1])
+            print('start')
+            list = self.config.items(section)
+            # print(list)
+            print(type(list))
+            for i in list:
+                # print(i,'\n')
+                # print(i[0],i[1])
+                if i[1] == 'time':
+                    new = str(time.time()).split('.')[0][8:] + str(time.time()).split('.')[1][2:]
+                    s = s.replace(i[0],new)
+                    print('time')
+                elif i[1] == 'RandomIP':
+                    s = s.replace(i[0],self.RandomIP())
+                    print('randomIP')
                 else:
-                    str = str.replace(old=i[0],new=str(time.time()).split('.')[0][8:]+str(time.time()).split('.')[1][2:])
-        return str
+                    s = s.replace(i[0],i[1])
+                    print(s)
+        print(s)
+        print("结束转义")
 
+        return s
+
+    def RandomIP(self):
+        IP = '10.22.{}.{}'.format(random.randint(1,255),random.randint(1,255))
+        return IP
 
 
 
