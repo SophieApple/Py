@@ -13,8 +13,7 @@ import logging
 
 host = 'http://192.168.83.200:8088'
 headers = '{"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="}'
-logging.basicConfig(filename='test.log', filemode='a', format="%(asctime)s %(name)s:%(levelname)s:%(message)s",
-                    datefmt="%d-%M-%Y %H:%M:%S", level=logging.NOTSET)
+logging.basicConfig(filename='test.log', filemode='a', format="%(asctime)s %(name)s:%(levelname)s:%(message)s",datefmt="%d-%M-%Y %H:%M:%S", level=logging.NOTSET)
 
 
 class Show(QMainWindow, Ui_MianWIndow):
