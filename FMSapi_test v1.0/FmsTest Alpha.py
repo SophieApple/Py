@@ -21,9 +21,9 @@ class Show(QMainWindow, Ui_MianWIndow):
         super(Show, self).__init__()
 
         ##读取配置文件
-        self.config = configparser.ConfigParser()
-        self.config.read('./config.ini')
-        self.Secs = self.config.sections()
+        # self.config = configparser.ConfigParser()
+        # self.config.read('./config.ini')
+        # self.Secs = self.config.sections()
 
         self.setWindowIcon(QtGui.QIcon('./fms.png'))
         # self.body_edit = QtWidgets.QTextEdit()
@@ -59,6 +59,8 @@ class Show(QMainWindow, Ui_MianWIndow):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.Label_init)
         self.timer.start(3000)
+
+        self.ImportExcel_init()
 
     def Label_init(self):
         self.label_requeststatus.setText('')
@@ -97,6 +99,18 @@ class Show(QMainWindow, Ui_MianWIndow):
             print('SaveAll!!')
         except Exception as e:
             logging.exception(e)
+
+    def ImportExcel_init(self):
+        try:
+            self.filename = './FMS接口.xlsx'
+            self.comboBox_way.clear()
+            self.list = pd.read_excel(self.filename)
+            for i in self.list.values:
+                self.comboBox_way.addItem(i[0])
+            self.label_method.setText(self.list.values[self.comboBox_way.currentIndex()][1])
+            self.lineEdit_path.setText(self.list.values[self.comboBox_way.currentIndex()][2])
+        except Exception as e:
+            print(e)
 
     def ImportExcel(self):
 
@@ -139,9 +153,11 @@ class Show(QMainWindow, Ui_MianWIndow):
         if self.checkBox_body.isChecked() and len(self.body_edit.toPlainText()) != 0:
             try:
                 self.request_body = json.loads(self.ReplaceStr(section='Id',s=self.body_edit.toPlainText()))
+                # self.request_body = {"ip_addr": "10.22.52.211", "nickname": "testtest4", "mac_addr": ""}
                 print(self.request_body)
             except Exception as e:
                 logging.exception(e)
+                print(e)
                 Mark = False
         if self.checkBox_header.isChecked() and len(self.header_edit.toPlainText()) != 0:
             try:
@@ -292,29 +308,27 @@ class Show(QMainWindow, Ui_MianWIndow):
         print('类型：', self.savetype)
 
     def ReplaceStr(self,section,s):
-        print('开始转义！')
-        # print(section,s,type(s))
-        # print(section,self.Secs)
-        if section in self.Secs:
-            print('start')
-            list = self.config.items(section)
-            # print(list)
-            print(type(list))
-            for i in list:
-                # print(i,'\n')
-                # print(i[0],i[1])
-                if i[1] == 'time':
-                    new = str(time.time()).split('.')[0][8:] + str(time.time()).split('.')[1][2:]
-                    s = s.replace(i[0],new)
-                    print('time')
-                elif i[1] == 'RandomIP':
-                    s = s.replace(i[0],self.RandomIP())
-                    print('randomIP')
-                else:
-                    s = s.replace(i[0],i[1])
-                    print(s)
+        # if section in self.Secs:
+        #     print('start')
+        #     list = self.config.items(section)
+        #     print(type(list))
+            # for i in list:
+            #     if i[1] == 'time':
+            #         new = str(time.time()).split('.')[0][8:] + str(time.time()).split('.')[1][2:]
+            #         s = s.replace(i[0],new)
+            #         print('time')
+            #     if i[1] == 'RandomIP':
+            #         s = s.replace(i[0],self.RandomIP())
+            #         print('randomIP')
+            #     else:
+            #         s = s.replace(i[0],i[1])
+            #         print(s)
+        s = s.replace('{randomnum}',str(random.randint(1,100))+str(random.randint(1,10))+str(random.randint(1,100)))
+        s = s.replace('{randomip}',self.RandomIP())
+        s = s.replace('{randomstr}',''.join(random.sample('zxcvbnmasdfghjklqwertyuiop',6)))
+        s = s.replace('{randomnum3}'),str(random.randint(1,9)+str(random.randint(1,9)+str(random.randint(1,9))))
         print(s)
-        print("结束转义")
+        print("end\n")
 
         return s
 
