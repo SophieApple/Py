@@ -20,18 +20,7 @@ class Show(QMainWindow, Ui_MianWIndow):
     def __init__(self):
         super(Show, self).__init__()
 
-        ##读取配置文件
-        # self.config = configparser.ConfigParser()
-        # self.config.read('./config.ini')
-        # self.Secs = self.config.sections()
-
         self.setWindowIcon(QtGui.QIcon('./fms.png'))
-        # self.body_edit = QtWidgets.QTextEdit()
-        # self.body_edit.setPlaceholderText('输入Body')
-        # self.query_edit = QtWidgets.QTextEdit()
-        # self.query_edit.setPlaceholderText('输入Query')
-        # self.header_edit = QtWidgets.QTextEdit()
-        # self.header_edit.setPlaceholderText('输入Header')
 
         self.body_edit = QtWidgets.QPlainTextEdit()
         # self.body_edit = QtWidgets.QTextEdit()
@@ -152,7 +141,7 @@ class Show(QMainWindow, Ui_MianWIndow):
         self.url = 'http://192.168.83.200:8088{}'.format(self.lineEdit_path.text())
         if self.checkBox_body.isChecked() and len(self.body_edit.toPlainText()) != 0:
             try:
-                self.request_body = json.loads(self.ReplaceStr(section='Id',s=self.body_edit.toPlainText()))
+                self.request_body = json.loads(self.ReplaceStr(s=self.body_edit.toPlainText()))
                 # self.request_body = {"ip_addr": "10.22.52.211", "nickname": "testtest4", "mac_addr": ""}
                 print(self.request_body)
             except Exception as e:
@@ -161,13 +150,13 @@ class Show(QMainWindow, Ui_MianWIndow):
                 Mark = False
         if self.checkBox_header.isChecked() and len(self.header_edit.toPlainText()) != 0:
             try:
-                self.request_header = json.loads(self.ReplaceStr(section='Id',s=self.header_edit.toPlainText()))
+                self.request_header = json.loads(self.ReplaceStr(s=self.header_edit.toPlainText()))
             except Exception as e:
                 logging.exception(e)
                 Mark = False
         if self.checkBox_query.isChecked() and len(self.query_edit.toPlainText()) != 0:
             try:
-                self.request_query = json.loads(self.ReplaceStr(section='Id',s=self.query_edit.toPlainText()))
+                self.request_query = json.loads(self.ReplaceStr(s=self.query_edit.toPlainText()))
             except Exception as e:
                 logging.exception(e)
                 Mark = False
@@ -307,7 +296,7 @@ class Show(QMainWindow, Ui_MianWIndow):
         print(self.savepath)
         print('类型：', self.savetype)
 
-    def ReplaceStr(self,section,s):
+    def ReplaceStr(self,s):
         # if section in self.Secs:
         #     print('start')
         #     list = self.config.items(section)
@@ -326,7 +315,7 @@ class Show(QMainWindow, Ui_MianWIndow):
         s = s.replace('{randomnum}',str(random.randint(1,100))+str(random.randint(1,10))+str(random.randint(1,100)))
         s = s.replace('{randomip}',self.RandomIP())
         s = s.replace('{randomstr}',''.join(random.sample('zxcvbnmasdfghjklqwertyuiop',6)))
-        s = s.replace('{randomnum3}'),str(random.randint(1,9)+str(random.randint(1,9)+str(random.randint(1,9))))
+        s = s.replace('{randomnum3}',str(random.randint(1,9))+str(random.randint(1,9))+str(random.randint(1,9)))
         print(s)
         print("end\n")
 
