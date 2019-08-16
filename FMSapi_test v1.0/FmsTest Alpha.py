@@ -16,6 +16,22 @@ headers = '{"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTU
 logging.basicConfig(filename='test.log', filemode='a', format="%(asctime)s %(name)s:%(levelname)s:%(message)s",datefmt="%d-%M-%Y %H:%M:%S", level=logging.NOTSET)
 
 
+class NewThread(QtCore.QThread):
+    trigget = QtCore.pyqtSignal(dict)
+    def __init__(self):
+        super(NewThread, self).__init__()
+        self.vehicles_Massage = {}
+    def run(self):
+        while True:
+            self.vehicles_Massage['vehicles_id'] = []
+
+            re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="})
+            for i in json.loads(re.text)['vehicles']:
+                self.vehicles_Massage['vehicles_id'].append(i['id'])
+            self.trigget.emit(self.vehicles_Massage)
+            time.sleep(1)
+
+
 class Show(QMainWindow, Ui_MianWIndow):
     def __init__(self):
         super(Show, self).__init__()
@@ -45,11 +61,27 @@ class Show(QMainWindow, Ui_MianWIndow):
         self.pushButton_save.clicked.connect(self.Save)
         self.pushButton_saveAll.clicked.connect(self.SaveAll)
         self.pushButton_export.clicked.connect(self.Export)
+        self.getvehicles_massage = NewThread()
+        self.getvehicles_massage.trigget.connect(self.GetVehiclesMsg)
+        self.getvehicles_massage.start()
+
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.Label_init)
         self.timer.start(3000)
 
         self.ImportExcel_init()
+
+
+    def GetVehiclesMsg(self,Vehiclesiddict):
+        """
+
+        :param Vehiclesidlist:
+        :return:dict
+        """
+        self.Vehiclesiddict = Vehiclesiddict
+        # print(self.Vehiclesiddict)
+        return self.Vehiclesiddict
+
 
     def Label_init(self):
         self.label_requeststatus.setText('')
@@ -143,7 +175,7 @@ class Show(QMainWindow, Ui_MianWIndow):
             try:
                 self.request_body = json.loads(self.ReplaceStr(s=self.body_edit.toPlainText()))
                 # self.request_body = {"ip_addr": "10.22.52.211", "nickname": "testtest4", "mac_addr": ""}
-                print(self.request_body)
+                # print(self.request_body)
             except Exception as e:
                 logging.exception(e)
                 print(e)
@@ -160,7 +192,8 @@ class Show(QMainWindow, Ui_MianWIndow):
             except Exception as e:
                 logging.exception(e)
                 Mark = False
-        print('here')
+        # print('here')
+        self.url = self.ReplaceStr(self.url)
         print(self.method, self.url)
         if not Mark:
             self.label_requeststatus.setText('请检查输入的参数！！')
@@ -316,6 +349,7 @@ class Show(QMainWindow, Ui_MianWIndow):
         s = s.replace('{randomip}',self.RandomIP())
         s = s.replace('{randomstr}',''.join(random.sample('zxcvbnmasdfghjklqwertyuiop',6)))
         s = s.replace('{randomnum3}',str(random.randint(1,9))+str(random.randint(1,9))+str(random.randint(1,9)))
+        s = s.replace('{vehicles_id}',str(self.Vehiclesiddict['vehicles_id'][-1]))
         print(s)
         print("end\n")
 
