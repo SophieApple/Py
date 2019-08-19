@@ -12,7 +12,9 @@ import pandas as pd
 import logging
 
 host = 'http://192.168.83.200:8088'
+# headers = '{"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="}'
 headers = '{"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="}'
+
 logging.basicConfig(filename='test.log', filemode='a', format="%(asctime)s %(name)s:%(levelname)s:%(message)s",datefmt="%d-%M-%Y %H:%M:%S", level=logging.NOTSET)
 
 
@@ -24,11 +26,13 @@ class NewThread(QtCore.QThread):
     def run(self):
         while True:
             self.vehicles_Massage['vehicles_id'] = []
+            re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
 
-            re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="})
+            # re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="})
             for i in json.loads(re.text)['vehicles']:
                 self.vehicles_Massage['vehicles_id'].append(i['id'])
             self.trigget.emit(self.vehicles_Massage)
+            print(self.vehicles_Massage)
             time.sleep(1)
 
 
@@ -293,7 +297,7 @@ class Show(QMainWindow, Ui_MianWIndow):
         if self.checkBox_header.isChecked():
             self.Layout_param.addWidget(self.header_edit)
             try:
-                self.header_edit.setPlainText(headers)
+                self.header_edit.setPlainText(self.list['headers'][self.comboBox_way.currentIndex()])
             except Exception as e:
                 logging.exception(e)
         if not self.checkBox_header.isChecked():
