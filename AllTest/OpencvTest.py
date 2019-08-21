@@ -17,11 +17,11 @@ faces = face_cascade.detectMultiScale(
     gray,
     scaleFactor=1.1,
     minNeighbors=10,
-    minSize=(1,1)
+    minSize=(50,50)
 )
 
 for (x,y,w,h)in faces:
-    cv2.rectangle(image,(x,y),(x+w,y+h),(0,255,0),2)
+    cv2.rectangle(image,(x+10,y+10),(x+w-10,y+h-10),(0,255,0),2)
 cv2.imshow("image",image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
