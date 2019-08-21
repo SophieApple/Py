@@ -34,5 +34,5 @@ for i in files:
 print(test)
 print(n)
 
-# for i in test:
-#     AnalysisImg('./pic/{}'.format(i),'./save/')
+for i in test:
+    AnalysisImg('./pic/{}'.format(i),'./save/')
