@@ -25,16 +25,88 @@ class NewThread(QtCore.QThread):
         self.vehicles_Massage = {}
     def run(self):
         while True:
-            # self.vehicles_Massage['vehicles_id'] = []
-            # re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
-            #
-            # # re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"token":"ZGV2LDE1NjgxNjgzOTM1NDEsZWFmOTU1MTRkYTQyM2Y2MTE3OTRkYjg5MTUzMmFiNDY="})
-            # for i in json.loads(re.text)['vehicles']:
-            #     self.vehicles_Massage['vehicles_id'].append(i['id'])
-            # self.trigget.emit(self.vehicles_Massage)
-            # print(self.vehicles_Massage)
-            time.sleep(1)
+            try:
+                self.vehicles_Massage['vehicles_id'] = []
+                self.vehicles_Massage['order_template_id'] = []
+                self.vehicles_Massage['order_id'] = []
+                self.vehicles_Massage['map_id'] = []
+                self.vehicles_Massage['map_relation_id'] = []
+                self.vehicles_Massage['station_id'] = []
+                self.vehicles_Massage['action_template_id'] = []
+                self.vehicles_Massage['dashboard_template_id'] = []
+                self.vehicles_Massage['caller_id'] = []
 
+
+                re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(re.text)['vehicles']:
+                    self.vehicles_Massage['vehicles_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                template_re = requests.get(url='http://192.168.83.200:8088/api/templates/order',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(template_re.text)['templates']:
+                    self.vehicles_Massage['order_template_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                order_id_re = requests.get(url='http://192.168.83.200:8088/api/orders',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(order_id_re.text)['orders']:
+                    self.vehicles_Massage['order_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                map_id_re = requests.get(url='http://192.168.83.200:8088/api/maps',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(map_id_re.text)['maps']:
+                    self.vehicles_Massage['map_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                map_relation_id_re = requests.get(url='http://192.168.83.200:8088/api/maps/relations',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(map_relation_id_re.text)['relations']:
+                    self.vehicles_Massage['map_relation_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                station_id_re = requests.get(url='http://192.168.83.200:8088/api/maps/station',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(station_id_re.text)['stations']:
+                    self.vehicles_Massage['station_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                action_template_id_re = requests.get(url='http://192.168.83.200:8088/api/templates/action',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(action_template_id_re.text)['templates']:
+                    self.vehicles_Massage['action_template_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                dashboard_template_id_re = requests.get(url='http://192.168.83.200:8088/api/templates/dashboard', headers={
+                    "token": "ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=",
+                    "cookie": 'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(dashboard_template_id_re.text)['templates']:
+                    self.vehicles_Massage['dashboard_template_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+            try:
+                caller_id_re = requests.get(url='http://192.168.83.200:8088/api/devices/caller', headers={
+                    "token": "ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=",
+                    "cookie": 'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(caller_id_re.text)['callers']:
+                    self.vehicles_Massage['caller_id'].append(i['id'])
+            except Exception as e:
+                print(e)
+
+
+            self.trigget.emit(self.vehicles_Massage)
+            time.sleep(5)
+            # print(self.vehicles_Massage)
 
 class Show(QMainWindow, Ui_MianWIndow):
     def __init__(self):
@@ -210,8 +282,6 @@ class Show(QMainWindow, Ui_MianWIndow):
                 self.label_requeststatus.setText('请求成功！')
                 self.label_requeststatus.setStyleSheet('color: rgb(0,255,0)')
                 print(response.text)
-                # self.Result('{}:\t{}'.format(self.name,response.status_code))
-                # self.Result(response.text)
                 self.Result("{}\t{}".format(self.name, str(response.status_code)))
                 self.ResponseBody(response.text)
             except Exception as e:
@@ -231,19 +301,19 @@ class Show(QMainWindow, Ui_MianWIndow):
         for i in range(0, Len):
             print('start')
             method = self.list['method'][i]
-            url = "{}{}".format(host, self.list['path'][i])
+            url = self.ReplaceStr("{}{}".format(host, self.list['path'][i]))
             print(url)
             Mark = True
             if not self.list['headers'].isnull()[i]:
                 try:
-                    header = json.loads(self.list['headers'][i])
+                    header = json.loads(self.ReplaceStr(self.list['headers'][i]))
                     print(header)
                 except Exception as e:
                     logging.exception(e)
                     Mark = False
             if not self.list['params'].isnull()[i]:
                 try:
-                    param = json.loads(self.list['params'][i])
+                    param = json.loads(self.ReplaceStr(self.list['params'][i]))
                     print(param)
                 except Exception as e:
                     logging.exception(e)
@@ -251,7 +321,7 @@ class Show(QMainWindow, Ui_MianWIndow):
 
             if not self.list['body'].isnull()[i]:
                 try:
-                    body = json.loads(self.list['body'][i])
+                    body = json.loads(self.ReplaceStr(self.list['body'][i]))
                     print(body)
                 except Exception as e:
                     logging.exception(e)
@@ -334,26 +404,69 @@ class Show(QMainWindow, Ui_MianWIndow):
         print('类型：', self.savetype)
 
     def ReplaceStr(self,s):
-        # if section in self.Secs:
-        #     print('start')
-        #     list = self.config.items(section)
-        #     print(type(list))
-            # for i in list:
-            #     if i[1] == 'time':
-            #         new = str(time.time()).split('.')[0][8:] + str(time.time()).split('.')[1][2:]
-            #         s = s.replace(i[0],new)
-            #         print('time')
-            #     if i[1] == 'RandomIP':
-            #         s = s.replace(i[0],self.RandomIP())
-            #         print('randomIP')
-            #     else:
-            #         s = s.replace(i[0],i[1])
-            #         print(s)
+
+        # s = '{'+s.strip('{').strip('}').format(randomnum = str(random.randint(1,100))+str(random.randint(1,10))+str(random.randint(1,100)),
+        #              randomip = self.RandomIP(),
+        #              randomstr = ''.join(random.sample('zxcvbnmasdfghjklqwertyuiop',6)),
+        #              randomnum3 = str(random.randint(1,9))+str(random.randint(1,9))+str(random.randint(1,9)),
+        #              randomnum2 = str(random.randint(1,9))+str(random.randint(1,9)),
+        #              randomnum1 = str(random.randint(1,9)),
+        #              )+'}'
+        # print(s)
+
         s = s.replace('{randomnum}',str(random.randint(1,100))+str(random.randint(1,10))+str(random.randint(1,100)))
         s = s.replace('{randomip}',self.RandomIP())
         s = s.replace('{randomstr}',''.join(random.sample('zxcvbnmasdfghjklqwertyuiop',6)))
         s = s.replace('{randomnum3}',str(random.randint(1,9))+str(random.randint(1,9))+str(random.randint(1,9)))
-        # s = s.replace('{vehicles_id}',str(self.Vehiclesiddict['vehicles_id'][-1]))
+        s = s.replace('{randomnum2}',str(random.randint(1,9))+str(random.randint(1,9)))
+        s = s.replace('{randomnum1}',str(random.randint(1,9)))
+
+
+        try:
+            s = s.replace('{vehicles_id}',str(random.choice(self.Vehiclesiddict['vehicles_id'])))
+        except Exception as e:
+            print('vehicles_id',e)
+
+        try:
+            s = s.replace('{order_template_id}',str(random.choice(self.Vehiclesiddict['order_template_id'])))
+        except Exception as e:
+            print('order_template_id',e)
+
+        try:
+            s = s.replace('{order_id}',str(random.choice(self.Vehiclesiddict['order_id'])))
+        except Exception as e:
+            print('order_id',e)
+
+        try:
+            s = s.replace('{map_id}',str(random.choice(self.Vehiclesiddict['map_id'])))
+        except Exception as e:
+            print('map_id',e)
+
+        try:
+            s = s.replace('{map_relation_id}',str(random.choice(self.Vehiclesiddict['map_relation_id'])))
+        except Exception as e:
+            print('map_relation_id',e)
+
+        try:
+            s = s.replace('{station_id}',str(random.choice(self.Vehiclesiddict['station_id'])))
+        except Exception as e:
+            print('station_id',e)
+
+        try:
+            s = s.replace('{action_template_id}',str(random.choice(self.Vehiclesiddict['action_template_id'])))
+        except Exception as e:
+            print('action_template_id',e)
+
+        try:
+            s = s.replace('{dashboard_template_id}',str(random.choice(self.Vehiclesiddict['dashboard_template_id'])))
+        except Exception as e:
+            print('dashboard_template_id',e)
+
+        try:
+            s = s.replace('{caller_id}',str(random.choice(self.Vehiclesiddict['caller_id'])))
+        except Exception as e:
+            print('caller_id',e)
+
         print(s)
         print("end\n")
 
