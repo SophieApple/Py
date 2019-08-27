@@ -1,45 +1,39 @@
-import sys,os,random
+import tensorflow as tf
 import numpy as np
+import matplotlib.pyplot as plt
+
+x_data = np.linspace(-0.5,0.5,200)[:,np.newaxis]
+noise = np.random.normal(0,0.02,x_data.shape)
+y_data = np.square(x_data) + noise
+#定义中间层
+W_L1 = tf.Variable(tf.random_normal([10,200]))
+B_L1 = tf.Variable(tf.zeros([10,1]))
+Z_L1 = tf.matmul(W_L1,x_data) + B_L1
+A_L1 = tf.nn.tanh(Z_L1)
+
+#定义输出层
+W_L2 = tf.Variable(tf.random_normal([1,10]))
+B_L2 = tf.Variable(tf.zeros([1,1]))
+Z_L2 = tf.matmul(W_L2,A_L1) + B_L2
+A_L2 = tf.nn.tanh(Z_L2)
 
 
-def sigmoid(z):
-    return 1.0/(1.0+np.exp(-z))
+#二次代价函数
+loss = tf.reduce_mean(tf.square(y_data-A_L2))
 
+#梯度下降法
+train_setp = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
 
-class NetWork():
-    def __init__(self,sizes):
-        self.num_layers = len(sizes)
-        self.sizes = sizes
-        self.biases = [np.random.randn(y,1) for y in sizes[1:]]
-        self.weights = [np.random.randn(y,x)
-                        for (x,y) in zip(sizes[:-1],sizes[1:])]
+init = tf.initialize_all_variables()
 
+with tf.Session() as sess:
+    sess.run(init)
+    for step in range(200):
+        sess.run(train_setp)
 
-    def feedforward(self,a):
-        """Return the output of the network if 'a' is input."""
-        for b,w in zip(self.biases,self.weights):
-            a = sigmoid(np.dot(w,a)+b)
-        return a
+    prediction_value = sess.run(A_L2)
 
-    def SGD(self,training_data,epochs,
-            mini_batch_size,eta,test_data=None):
-        """Train the neural network using mini-batch stochastic
-        gradient descent"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    a = NetWork([12,3,2])
-    print(a.feedforward([1,1,1,1,1,1,1,1,1,1,1,1]))
-
+    plt.figure()
+    plt.scatter(x_data,y_data)
+    plt.plot(x_data,prediction_value,'r-',lw=5)
+    plt.show()

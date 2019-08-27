@@ -24,64 +24,78 @@ class NewThread(QtCore.QThread):
         super(NewThread, self).__init__()
         self.vehicles_Massage = {}
     def run(self):
+        self.vehicles_Massage['vehicles_id'] = []
+        self.vehicles_Massage['order_template_id'] = []
+        self.vehicles_Massage['order_id'] = []
+        self.vehicles_Massage['map_id'] = []
+        self.vehicles_Massage['map_relation_id'] = []
+        self.vehicles_Massage['station_id'] = []
+        self.vehicles_Massage['action_template_id'] = []
+        self.vehicles_Massage['dashboard_template_id'] = []
+        self.vehicles_Massage['caller_id'] = []
+        self.vehicles_Massage['charger_id'] = []
         while True:
+            a = []
             try:
-                self.vehicles_Massage['vehicles_id'] = []
-                self.vehicles_Massage['order_template_id'] = []
-                self.vehicles_Massage['order_id'] = []
-                self.vehicles_Massage['map_id'] = []
-                self.vehicles_Massage['map_relation_id'] = []
-                self.vehicles_Massage['station_id'] = []
-                self.vehicles_Massage['action_template_id'] = []
-                self.vehicles_Massage['dashboard_template_id'] = []
-                self.vehicles_Massage['caller_id'] = []
-
-
                 re = requests.get(url='http://192.168.83.200:8088/api/vehicles',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(re.text)['vehicles']:
-                    self.vehicles_Massage['vehicles_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['vehicles_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
             try:
                 template_re = requests.get(url='http://192.168.83.200:8088/api/templates/order',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(template_re.text)['templates']:
-                    self.vehicles_Massage['order_template_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['order_template_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
             try:
                 order_id_re = requests.get(url='http://192.168.83.200:8088/api/orders',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(order_id_re.text)['orders']:
-                    self.vehicles_Massage['order_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['order_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
             try:
                 map_id_re = requests.get(url='http://192.168.83.200:8088/api/maps',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(map_id_re.text)['maps']:
-                    self.vehicles_Massage['map_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['map_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
             try:
                 map_relation_id_re = requests.get(url='http://192.168.83.200:8088/api/maps/relations',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(map_relation_id_re.text)['relations']:
-                    self.vehicles_Massage['map_relation_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['map_relation_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
             try:
                 station_id_re = requests.get(url='http://192.168.83.200:8088/api/maps/station',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(station_id_re.text)['stations']:
-                    self.vehicles_Massage['station_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['station_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
             try:
                 action_template_id_re = requests.get(url='http://192.168.83.200:8088/api/templates/action',headers={"token":"ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=","cookie":'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(action_template_id_re.text)['templates']:
-                    self.vehicles_Massage['action_template_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['action_template_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
@@ -90,7 +104,9 @@ class NewThread(QtCore.QThread):
                     "token": "ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=",
                     "cookie": 'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(dashboard_template_id_re.text)['templates']:
-                    self.vehicles_Massage['dashboard_template_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['dashboard_template_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
@@ -99,7 +115,20 @@ class NewThread(QtCore.QThread):
                     "token": "ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=",
                     "cookie": 'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
                 for i in json.loads(caller_id_re.text)['callers']:
-                    self.vehicles_Massage['caller_id'].append(i['id'])
+                    a.append(i['id'])
+                self.vehicles_Massage['caller_id'] = a
+                a = []
+            except Exception as e:
+                print(e)
+
+            try:
+                charger_id_re = requests.get(url='http://192.168.83.200:8088/api/devices/charger', headers={
+                    "token": "ZGV2LDE1Njg4NjQ0NDY4MDIsZjM3NmFmMTkzZTUwOTczMWU5OTY5ZjFlNjFjZTlmZTM=",
+                    "cookie": 'username=2|1:0|10:1565933869|8:username|4:ZGV2|1a8418e48b008340cf53d338f3085098f1349003a4a984c03b65e7280d47fc9e; userid="2|1:0|10:1565933869|6:userid|4:Mg==|c96070cf9ea41a922930b4d9340be76ab2e053634326689d4de847679d906ddc"'})
+                for i in json.loads(charger_id_re.text)['chargers']:
+                    a.append(i['id'])
+                self.vehicles_Massage['charger_id'] = a
+                a = []
             except Exception as e:
                 print(e)
 
@@ -466,6 +495,11 @@ class Show(QMainWindow, Ui_MianWIndow):
             s = s.replace('{caller_id}',str(random.choice(self.Vehiclesiddict['caller_id'])))
         except Exception as e:
             print('caller_id',e)
+
+        try:
+            s = s.replace('{charger_id}',str(random.choice(self.Vehiclesiddict['charger_id'])))
+        except Exception as e:
+            print('charger_id',e)
 
         print(s)
         print("end\n")
