@@ -42,7 +42,7 @@ for url in result:
                                           minSize=(50,50))
     if len(faces) != 0:
         for (x,y,w,h) in faces:
-            cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,255),2)
+
             # cv2.imshow('img',img)
             # cv2.waitKey(0)
             if not os.path.exists('./TongLiYa'):
@@ -51,5 +51,6 @@ for url in result:
                 os.mkdir('./TongLiYa/face')
             imgpath = './TongLiYa/{}'.format(url.split('/')[-1])
             print(imgpath)
+            cv2.imwrite('./TongLiYa/face/face{}.jpg'.format(num), img[y - 10:y + h + 10, x - 10:x + w + 10])
+            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 255), 2)
             cv2.imwrite('./TongLiYa/{}.jpg'.format(url.split('/')[-1].split('.')[0]),img)
-            cv2.imwrite('./TongLiYa/face/face{}.jpg'.format(num),img[x+10:x+w+10,y+10:y+h+10])
